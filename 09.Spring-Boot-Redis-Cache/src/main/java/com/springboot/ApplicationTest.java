@@ -10,7 +10,7 @@ import com.springboot.bean.Student;
 import com.springboot.service.StudentService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = SpringBootRedisCache.class)
 public class ApplicationTest {
 
 	@Autowired
