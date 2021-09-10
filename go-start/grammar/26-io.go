@@ -13,6 +13,7 @@ func main() {
 		return
 	}
 	//写入字符串
+	//写时读写位置跟着变
 	n, err := fd.WriteString("hello world\n")
 	if err != nil {
 		fmt.Println("Failed to WriteString", err)
