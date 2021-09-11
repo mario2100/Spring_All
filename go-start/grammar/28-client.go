@@ -6,6 +6,9 @@ import (
 	"os"
 )
 
+/**
+客户端
+*/
 func main() {
 	//1. 第一步建立连接
 	conn, err := net.Dial("tcp", "localhost:8888")
