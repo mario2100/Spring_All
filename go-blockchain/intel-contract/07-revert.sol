@@ -1,10 +1,11 @@
-pragma solidity> 0.5.0 < 0.8.8;
+pragma solidity > 0.5.0 < 0.8.8;
 
-
+//状态恢复机制
+//assert 扣光gas
 contract revert_demo {
     address public admin;
     uint256 public amount;
-    
+
     constructor() public {
         admin = msg.sender;
         amount = 0;
@@ -13,15 +14,15 @@ contract revert_demo {
         require(admin == msg.sender, "only admin can do this");
         _;
     }
-    
+
     function setCount(uint256 _amount) public onlyadmin {
         amount *= 2;
     }
-    
+
     function deposit(uint256 _amount) public payable {
         require(msg.value == _amount, "msg.value must equal _amount");
         assert(_amount > 0);
         amount += _amount;
     }
-    
+
 }

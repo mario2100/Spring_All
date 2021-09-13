@@ -1,4 +1,4 @@
-pragma solidity^0.6.1;
+pragma solidity^0.8.7;
 
 contract mybank{
     mapping(address=>uint256) public balances;

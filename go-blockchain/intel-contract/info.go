@@ -15,4 +15,9 @@ func main() {
 	//搭建私网节点  创世块文件
 
 	//Solidity 智能合约开发语言
+
+	//合约
+	//gas充足
+	//状态恢复机制
+    //assert  require 断言函数 回滚
 }
