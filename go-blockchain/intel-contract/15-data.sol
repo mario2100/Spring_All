@@ -2,6 +2,9 @@ pragma solidity ^0.8.7;
 //返回值带结构体
 pragma experimental ABIEncoderV2;
 
+//合约升级
+//对外发布的地址是不变的
+//代理合约
 contract data_demo {
     //结构体可以声明在合约外部
     struct Bank {
@@ -21,6 +24,7 @@ contract data_demo {
     }
 }
 
+//调用
 contract call_demo {
     //引用前一合约的数据
     data_demo data;
