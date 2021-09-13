@@ -100,7 +100,7 @@ func (cli *CLI) Run() {
 }
 
 func (cli CLI) getBalance(address string) {
-	bc := NewBlockchain()
+	bc := NewBlockChain()
 	defer bc.db.Close()
 	bc.getBalance(address)
 }
@@ -112,12 +112,12 @@ func (cli CLI) createWallet() {
 }
 
 func (cli CLI) createBlockChain(address string) {
-	bc := CreateBlockchain(address)
+	bc := CreateBlockChain(address)
 	defer bc.db.Close()
 }
 
 func (cli CLI) send(to string, amount int) {
-	bc := NewBlockchain()
+	bc := NewBlockChain()
 	defer bc.db.Close()
 	w := NewWalletByFile()
 	from := fmt.Sprint("%s", w.GetAddress())

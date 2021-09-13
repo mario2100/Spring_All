@@ -9,7 +9,7 @@ func main2() {
 	wallet := NewWallet()
 	from := fmt.Sprintf("%s", wallet.GetAddress())
 
-	bc := CreateBlockchain(from)
+	bc := CreateBlockChain(from)
 	defer bc.db.Close()
 	//2. 获取叶开余额
 	bc.getBalance(from)
