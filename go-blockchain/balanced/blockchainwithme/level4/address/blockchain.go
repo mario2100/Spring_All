@@ -29,7 +29,6 @@ type BlockChainIterator struct {
 //通过BlockChain构造迭代器
 func (bc *BlockChain) Iterator() *BlockChainIterator {
 	bci := &BlockChainIterator{bc.tip, bc.db}
-
 	return bci
 }
 
@@ -53,7 +52,6 @@ func NewBlockChain() *BlockChain {
 			bucket.Put(genesis.Hash, block_data)
 			bucket.Put([]byte("last"), genesis.Hash)
 			tip = genesis.Hash
-
 		} else {
 			//2.3 不是第一次使用，之前有块
 			tip = buck.Get([]byte("last"))
@@ -63,6 +61,7 @@ func NewBlockChain() *BlockChain {
 	//3. 记录BlockChain 信息
 	return &BlockChain{tip, db}
 }
+
 
 // 向区块链结构上增加一个区块
 func (bc *BlockChain) AddBlock(data string) {
@@ -95,7 +94,6 @@ func (i *BlockChainIterator) PreBlock() (*Block, bool) {
 		encodedBlock := b.Get(i.currentHash)
 		//解码当前块数据
 		block = DeserializeBlock(encodedBlock)
-
 		return nil
 	})
 	//当前hash变更为前块hash

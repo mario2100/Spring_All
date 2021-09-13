@@ -1,5 +1,7 @@
 package main
-
+/**
+持久化
+ */
 import (
 	"fmt"
 	"github.com/boltdb/bolt"

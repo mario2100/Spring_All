@@ -82,7 +82,7 @@ func (cli *CLI) Run() {
 			createBlockchainCmd.Usage()
 			os.Exit(1)
 		}
-		cli.createBlockchain(*createBlockchainAddress)
+		cli.createBlockChain(*createBlockchainAddress)
 	}
 
 	if createWalletCmd.Parsed() {
@@ -111,7 +111,7 @@ func (cli CLI) createWallet() {
 	w.SaveToFile()
 }
 
-func (cli CLI) createBlockchain(address string) {
+func (cli CLI) createBlockChain(address string) {
 	bc := CreateBlockchain(address)
 	defer bc.db.Close()
 }

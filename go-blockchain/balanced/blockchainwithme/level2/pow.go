@@ -9,6 +9,10 @@ import (
 	"math/big"
 )
 
+/**
+proof of work
+工作量证明 共识算法 挖矿过程
+*/
 var (
 	maxNonce = int64(math.MaxInt64)
 )

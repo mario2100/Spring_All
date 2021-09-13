@@ -6,7 +6,7 @@ import (
 
 func main() {
 	//创世块初始化区块链
-	bc := NewBlockchain()
+	bc := NewBlockChain()
 	//创建2个块记录2笔交易
 	bc.AddBlock("Send 1 BTC to Yekai")
 	bc.AddBlock("Send 2 more BTC to Fuhongxue")

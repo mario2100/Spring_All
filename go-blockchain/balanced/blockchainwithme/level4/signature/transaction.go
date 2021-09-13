@@ -24,7 +24,6 @@ type Transaction struct {
 func (tx *Transaction) SetID() {
 	var encoded bytes.Buffer
 	var hash [32]byte
-
 	enc := gob.NewEncoder(&encoded)
 	enc.Encode(tx)
 	hash = sha256.Sum256(encoded.Bytes())
@@ -39,7 +38,7 @@ func (tx Transaction) IsCoinbase() bool {
 }
 
 //创建CoinBase交易
-func NewCoinbaseTX(to, data string) *Transaction {
+func NewCoinBaseTX(to, data string) *Transaction {
 	if data == "" {
 		data = fmt.Sprintf("Reward to '%s'", to)
 	}

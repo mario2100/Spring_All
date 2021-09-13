@@ -23,10 +23,9 @@ func Base58Encode(input int64) []byte {
 	zero := big.NewInt(0)
 	//用于存储余数
 	mod := &big.Int{}
-
+	//求余运算
 	for x.Cmp(zero) != 0 {
 		x.DivMod(x, base, mod)
-
 		result = append(result, b58Alphabet[mod.Int64()])
 	}
 	ReverseBytes(result)

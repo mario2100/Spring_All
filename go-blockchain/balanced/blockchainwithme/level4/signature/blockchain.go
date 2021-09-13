@@ -25,7 +25,7 @@ const miner = "yekai"
 const genesisCoinbaseData = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"
 
 // 区块链：一个区块的指针数组
-type Blockchain struct {
+type BlockChain struct {
 	//记录最新块hash值
 	tip []byte
 	//存放区块链的db
@@ -33,15 +33,14 @@ type Blockchain struct {
 }
 
 //迭代器
-type BlockchainIterator struct {
+type BlockChainIterator struct {
 	currentHash []byte   //当区块hash
 	db          *bolt.DB //已经打开的数据库
 }
 
-//通过Blockchain构造迭代器
-func (bc *Blockchain) Iterator() *BlockchainIterator {
-	bci := &BlockchainIterator{bc.tip, bc.db}
-
+//通过BlockChain构造迭代器
+func (bc *BlockChain) Iterator() *BlockChainIterator {
+	bci := &BlockChainIterator{bc.tip, bc.db}
 	return bci
 }
 
@@ -54,7 +53,7 @@ func dbExists() bool {
 }
 
 // 创建区块链结构，初始化只有创世块
-func CreateBlockchain(address string) *Blockchain {
+func CreateBlockChain(address string) *BlockChain {
 	//1. 只能第一次创建
 	if dbExists() {
 		fmt.Println("Blockchain already exists.")
@@ -70,7 +69,7 @@ func CreateBlockchain(address string) *Blockchain {
 		if buck == nil {
 			//2.2.1 第一次使用，创建创世块
 			fmt.Println("No existing blockchain found. Creating a new one...")
-			cbtx := NewCoinbaseTX(address, genesisCoinbaseData)
+			cbtx := NewCoinBaseTX(address, genesisCoinbaseData)
 			genesis := NewGenesisBlock(cbtx)
 			//2.2.2 区块数据编码
 			block_data := genesis.Serialize()
@@ -86,12 +85,12 @@ func CreateBlockchain(address string) *Blockchain {
 		}
 		return nil
 	})
-	//3. 记录Blockchain 信息
-	return &Blockchain{tip, db}
+	//3. 记录BlockChain 信息
+	return &BlockChain{tip, db}
 }
 
 // 向区块链结构上增加一个区块
-func (bc *Blockchain) MinedBlock(transactions []*Transaction, data string) {
+func (bc *BlockChain) MinedBlock(transactions []*Transaction, data string) {
 	var tip []byte
 	//1. 获取tip值，此时不能再打开数据库文件，要用区块的结构
 	bc.db.View(func(tx *bolt.Tx) error {
@@ -114,7 +113,7 @@ func (bc *Blockchain) MinedBlock(transactions []*Transaction, data string) {
 }
 
 //获取前一个区块hash，返回当区块数据
-func (i *BlockchainIterator) PreBlock() (*Block, bool) {
+func (i *BlockChainIterator) PreBlock() (*Block, bool) {
 	var block *Block
 	//根据hash获取块数据
 	i.db.View(func(tx *bolt.Tx) error {
@@ -132,7 +131,7 @@ func (i *BlockchainIterator) PreBlock() (*Block, bool) {
 }
 
 //查找账户可解锁的全部交易
-func (bc *Blockchain) FindUnspentTransactions(pubKeyHash []byte) []Transaction {
+func (bc *BlockChain) FindUnspentTransactions(pubKeyHash []byte) []Transaction {
 	var unspentTXs []Transaction
 	//已经花出的UTXO，构建tx->VOutIdx的map
 	spentTXOs := make(map[string][]int)
@@ -180,7 +179,7 @@ func (bc *Blockchain) FindUnspentTransactions(pubKeyHash []byte) []Transaction {
 	return unspentTXs
 }
 
-func (bc *Blockchain) FindUTXO(pubKeyHash []byte) []TXOutput {
+func (bc *BlockChain) FindUTXO(pubKeyHash []byte) []TXOutput {
 	var UTXOs []TXOutput
 	//先找所有交易
 	unspentTransactions := bc.FindUnspentTransactions(pubKeyHash)
@@ -202,7 +201,7 @@ func (bc *Blockchain) FindUTXO(pubKeyHash []byte) []TXOutput {
 }
 
 //获取部分满足交易的UTXO
-func (bc *Blockchain) FindSpendableOutputs(pubKeyHash []byte, amount int) (int, map[string][]int) {
+func (bc *BlockChain) FindSpendableOutputs(pubKeyHash []byte, amount int) (int, map[string][]int) {
 	unspentOutputs := make(map[string][]int)
 	//获取可使用交易
 	unspentTXs := bc.FindUnspentTransactions(pubKeyHash)
@@ -228,7 +227,7 @@ Work:
 	return accumulated, unspentOutputs
 }
 
-func (bc *Blockchain) getBalance(address string) {
+func (bc *BlockChain) getBalance(address string) {
 
 	balance := 0
 	pubKeyHash := Base58Decode([]byte(address))
@@ -243,7 +242,7 @@ func (bc *Blockchain) getBalance(address string) {
 }
 
 //交易发送
-func (bc *Blockchain) send(from, to string, amount int, data string, wallet *Wallet) {
+func (bc *BlockChain) send(from, to string, amount int, data string, wallet *Wallet) {
 	//创建普通交易
 	tx := NewUTXOTransaction(from, to, amount, bc, wallet)
 	//创建coinbase交易
@@ -253,7 +252,7 @@ func (bc *Blockchain) send(from, to string, amount int, data string, wallet *Wal
 	fmt.Println("Success!")
 }
 
-func (bc *Blockchain) SignTransaction(tx *Transaction, privKey ecdsa.PrivateKey) {
+func (bc *BlockChain) SignTransaction(tx *Transaction, privKey ecdsa.PrivateKey) {
 	prevTXs := make(map[string]Transaction)
 
 	for _, vin := range tx.Vin {
@@ -266,7 +265,7 @@ func (bc *Blockchain) SignTransaction(tx *Transaction, privKey ecdsa.PrivateKey)
 
 	tx.Sign(privKey, prevTXs)
 }
-func (bc *Blockchain) FindTransaction(ID []byte) (Transaction, error) {
+func (bc *BlockChain) FindTransaction(ID []byte) (Transaction, error) {
 	bci := bc.Iterator()
 
 	for {
@@ -286,18 +285,16 @@ func (bc *Blockchain) FindTransaction(ID []byte) (Transaction, error) {
 	return Transaction{}, errors.New("Transaction is not found")
 }
 
-func NewBlockchain() *Blockchain {
+func NewBlockChain() *BlockChain {
 	if dbExists() == false {
 		fmt.Println("No existing blockchain found. Create one first.")
 		os.Exit(1)
 	}
-
 	var tip []byte
 	db, err := bolt.Open(dbFile, 0600, nil)
 	if err != nil {
 		log.Panic(err)
 	}
-
 	err = db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(blocksBucket))
 		tip = b.Get([]byte("last"))
@@ -307,8 +304,6 @@ func NewBlockchain() *Blockchain {
 	if err != nil {
 		log.Panic(err)
 	}
-
-	bc := Blockchain{tip, db}
-
+	bc := BlockChain{tip, db}
 	return &bc
 }

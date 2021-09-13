@@ -1,13 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/sha256"
-	"log"
-
+	"fmt"
 	"golang.org/x/crypto/ripemd160"
+	"log"
 )
 
 const version = byte(0x00)
@@ -31,7 +32,6 @@ func NewWallet() *Wallet {
 //wallet.go
 func newKeyPair() (ecdsa.PrivateKey, []byte) {
 	//获得曲线
-
 	curve := elliptic.P256()
 	//生成私钥
 	private, err := ecdsa.GenerateKey(curve, rand.Reader)
@@ -40,7 +40,6 @@ func newKeyPair() (ecdsa.PrivateKey, []byte) {
 	}
 	//利用私钥推导出公钥
 	pubKey := append(private.PublicKey.X.Bytes(), private.PublicKey.Y.Bytes()...)
-
 	return *private, pubKey
 }
 
@@ -76,34 +75,31 @@ func (w Wallet) GetAddress() []byte {
 	//3. 计算base58编码
 	fullPayload := append(versionedPayload, checksum...)
 	address := Base58Encode(fullPayload)
-
 	return address
-}
-
-//交易发送
-func (w Wallet) send(from, to string, amount int) {
-	if !ValidateAddress(from) {
-		log.Panic("ERROR: Sender address is not valid")
-	}
-	if !ValidateAddress(to) {
-		log.Panic("ERROR: Recipient address is not valid")
-	}
-
-	bc := NewBlockchain(from)
-	defer bc.db.Close()
-
-	tx := NewUTXOTransaction(from, to, amount, bc)
-	bc.MineBlock([]*Transaction{tx})
-	fmt.Println("Success!")
 }
 
 //验证地址
 func ValidateAddress(address string) bool {
 	pubKeyHash := Base58Decode([]byte(address))
-	actualChecksum := pubKeyHash[len(pubKeyHash)-addressChecksumLen:]
+	actualChecksum := pubKeyHash[len(pubKeyHash)-ChecksumLen:]
 	version := pubKeyHash[0]
-	pubKeyHash = pubKeyHash[1 : len(pubKeyHash)-addressChecksumLen]
+	pubKeyHash = pubKeyHash[1 : len(pubKeyHash)-ChecksumLen]
 	targetChecksum := checksum(append([]byte{version}, pubKeyHash...))
-
 	return bytes.Compare(actualChecksum, targetChecksum) == 0
+}
+
+//交易发送
+func (w Wallet) send(from, to string, amount int) {
+	//if !ValidateAddress(from) {
+	//	log.Panic("ERROR: Sender address is not valid")
+	//}
+	//if !ValidateAddress(to) {
+	//	log.Panic("ERROR: Recipient address is not valid")
+	//}
+	//bc := NewBlockChain(from)
+	//defer bc.db.Close()
+	//
+	//tx := NewUTXOTransaction(from, to, amount, bc)
+	//bc.MineBlock([]*Transaction{tx})
+	fmt.Println("Success!")
 }

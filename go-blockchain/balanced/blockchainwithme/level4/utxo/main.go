@@ -2,7 +2,7 @@ package main
 
 func main1() {
 	//1. 创世块初始化区块链
-	bc := CreateBlockchain()
+	bc := CreateBlockChain()
 	defer bc.db.Close()
 	//2. 获取叶开余额
 	bc.getBalance("yekai")
@@ -11,7 +11,7 @@ func main1() {
 
 func main() {
 	//1. 创世块初始化区块链
-	bc := CreateBlockchain()
+	bc := CreateBlockChain()
 	defer bc.db.Close()
 	//2. 获取叶开余额
 	bc.getBalance("yekai")
