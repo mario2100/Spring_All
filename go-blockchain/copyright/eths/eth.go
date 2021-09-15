@@ -12,6 +12,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
+//合约地址
 var PXA_ADDR = "0x36828345e39ADe9b9645aB993d179AA40a98cbf1"
 var PXC_ADDR = "0x9c822d4AE6E5Ec17B8b9a8A2b9032CcFfF0192Ad"
 

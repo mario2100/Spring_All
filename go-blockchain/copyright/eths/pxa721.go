@@ -15,6 +15,8 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 )
 
+//ICR721标准
+//
 // Reference imports to suppress errors if they are not otherwise used.
 var (
 	_ = big.NewInt

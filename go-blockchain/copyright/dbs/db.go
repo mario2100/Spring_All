@@ -3,7 +3,6 @@ package dbs
 import (
 	"database/sql"
 	"fmt"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -43,7 +42,7 @@ var DBConn *sql.DB
 
 //init函数是本包被其他文件引用时自动执行，并且整个工程只会执行一次
 func init() {
-	DBConn = InitDB("admin:123456@tcp(10.211.55.3:3306)/copyright?charset=utf8", "mysql")
+	DBConn = InitDB("root:12345678@tcp(localhost:3306)/copyright?charset=utf8", "mysql")
 }
 
 //初始化数据库连接
