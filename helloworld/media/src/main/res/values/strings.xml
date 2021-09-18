@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">media</string>
+    <string name="pause_event">com.example.media.service.MusicService.pause</string>
+</resources>
