@@ -1,0 +1,81 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:1:1-32:12
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:1:1-32:12
+	package
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:2:5-29
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:4:5-30
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:1:11-69
+	android:versionCode
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:3:5-28
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+uses-permission#android.permission.INTERNET
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:6:5-67
+	android:name
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:6:22-64
+uses-permission#android.permission.SYSTEM_ALERT_WINDOW
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:7:5-77
+	android:name
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:7:22-75
+uses-sdk
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:9:5-11:41
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:9:5-11:41
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:9:5-11:41
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:9:5-11:41
+INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:9:5-11:41
+	android:targetSdkVersion
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:11:9-38
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:10:9-35
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml
+application
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:13:5-30:19
+	android:label
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:16:7-39
+	android:icon
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:17:7-41
+	android:allowBackup
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:15:7-33
+	android:theme
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:18:7-38
+	android:name
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:14:7-38
+activity#com.helloreact.MainActivity
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:19:7-28:18
+	android:label
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:21:9-41
+	android:windowSoftInputMode
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:23:9-51
+	android:configChanges
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:22:9-79
+	android:name
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:20:9-37
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:24:9-27:25
+action#android.intent.action.MAIN
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:25:13-65
+	android:name
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:25:21-62
+category#android.intent.category.LAUNCHER
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:26:13-73
+	android:name
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:26:23-70
+activity#com.facebook.react.devsupport.DevSettingsActivity
+ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:29:7-84
+	android:name
+		ADDED from /Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/AndroidManifest.xml:29:17-81

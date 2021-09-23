@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/jiangjunhe/Desktop/java/Spring_All/ReactNative-Book-Demo-master/02-02-02/HelloReact/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+    }
+]
