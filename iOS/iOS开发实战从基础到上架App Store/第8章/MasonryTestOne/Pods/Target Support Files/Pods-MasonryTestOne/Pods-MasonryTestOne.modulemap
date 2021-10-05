@@ -1,0 +1,6 @@
+framework module Pods_MasonryTestOne {
+  umbrella header "Pods-MasonryTestOne-umbrella.h"
+
+  export *
+  module * { export * }
+}

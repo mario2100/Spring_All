@@ -1,0 +1,7 @@
+
+target 'MyLaugh' do
+  use_frameworks!
+pod 'Alamofire', '~> 4.2.0'
+pod 'Kingfisher', '~> 3.2.4'
+
+end

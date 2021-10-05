@@ -1,0 +1,6 @@
+framework module Pods_MyLaugh {
+  umbrella header "Pods-MyLaugh-umbrella.h"
+
+  export *
+  module * { export * }
+}

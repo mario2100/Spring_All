@@ -1,0 +1,313 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		281486E21D9CB4B70003164F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281486E11D9CB4B70003164F /* AppDelegate.swift */; };
+		281486E41D9CB4B70003164F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281486E31D9CB4B70003164F /* ViewController.swift */; };
+		281486E71D9CB4B70003164F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 281486E51D9CB4B70003164F /* Main.storyboard */; };
+		281486E91D9CB4B70003164F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 281486E81D9CB4B70003164F /* Assets.xcassets */; };
+		281486EC1D9CB4B70003164F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 281486EA1D9CB4B70003164F /* LaunchScreen.storyboard */; };
+		281486F41D9CB5390003164F /* animation.gif in Resources */ = {isa = PBXBuildFile; fileRef = 281486F31D9CB5390003164F /* animation.gif */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		281486DE1D9CB4B70003164F /* GIFAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GIFAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		281486E11D9CB4B70003164F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		281486E31D9CB4B70003164F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		281486E61D9CB4B70003164F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		281486E81D9CB4B70003164F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		281486EB1D9CB4B70003164F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		281486ED1D9CB4B70003164F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		281486F31D9CB5390003164F /* animation.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = animation.gif; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		281486DB1D9CB4B70003164F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		281486D51D9CB4B70003164F = {
+			isa = PBXGroup;
+			children = (
+				281486E01D9CB4B70003164F /* GIFAnimation */,
+				281486DF1D9CB4B70003164F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		281486DF1D9CB4B70003164F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				281486DE1D9CB4B70003164F /* GIFAnimation.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		281486E01D9CB4B70003164F /* GIFAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				281486F31D9CB5390003164F /* animation.gif */,
+				281486E11D9CB4B70003164F /* AppDelegate.swift */,
+				281486E31D9CB4B70003164F /* ViewController.swift */,
+				281486E51D9CB4B70003164F /* Main.storyboard */,
+				281486E81D9CB4B70003164F /* Assets.xcassets */,
+				281486EA1D9CB4B70003164F /* LaunchScreen.storyboard */,
+				281486ED1D9CB4B70003164F /* Info.plist */,
+			);
+			path = GIFAnimation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		281486DD1D9CB4B70003164F /* GIFAnimation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 281486F01D9CB4B70003164F /* Build configuration list for PBXNativeTarget "GIFAnimation" */;
+			buildPhases = (
+				281486DA1D9CB4B70003164F /* Sources */,
+				281486DB1D9CB4B70003164F /* Frameworks */,
+				281486DC1D9CB4B70003164F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GIFAnimation;
+			productName = GIFAnimation;
+			productReference = 281486DE1D9CB4B70003164F /* GIFAnimation.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		281486D61D9CB4B70003164F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = jaki;
+				TargetAttributes = {
+					281486DD1D9CB4B70003164F = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = CKUF38R4M7;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 281486D91D9CB4B70003164F /* Build configuration list for PBXProject "GIFAnimation" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 281486D51D9CB4B70003164F;
+			productRefGroup = 281486DF1D9CB4B70003164F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				281486DD1D9CB4B70003164F /* GIFAnimation */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		281486DC1D9CB4B70003164F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				281486EC1D9CB4B70003164F /* LaunchScreen.storyboard in Resources */,
+				281486F41D9CB5390003164F /* animation.gif in Resources */,
+				281486E91D9CB4B70003164F /* Assets.xcassets in Resources */,
+				281486E71D9CB4B70003164F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		281486DA1D9CB4B70003164F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				281486E41D9CB4B70003164F /* ViewController.swift in Sources */,
+				281486E21D9CB4B70003164F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		281486E51D9CB4B70003164F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				281486E61D9CB4B70003164F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		281486EA1D9CB4B70003164F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				281486EB1D9CB4B70003164F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		281486EE1D9CB4B70003164F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		281486EF1D9CB4B70003164F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		281486F11D9CB4B70003164F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = CKUF38R4M7;
+				INFOPLIST_FILE = GIFAnimation/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = jaki.GIFAnimation;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		281486F21D9CB4B70003164F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = CKUF38R4M7;
+				INFOPLIST_FILE = GIFAnimation/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = jaki.GIFAnimation;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		281486D91D9CB4B70003164F /* Build configuration list for PBXProject "GIFAnimation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				281486EE1D9CB4B70003164F /* Debug */,
+				281486EF1D9CB4B70003164F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		281486F01D9CB4B70003164F /* Build configuration list for PBXNativeTarget "GIFAnimation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				281486F11D9CB4B70003164F /* Debug */,
+				281486F21D9CB4B70003164F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 281486D61D9CB4B70003164F /* Project object */;
+}
