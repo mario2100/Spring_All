@@ -14,6 +14,10 @@
 		161B504B270741E80049DCCD /* 一、swift基础知识.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 161B504A270741E80049DCCD /* 一、swift基础知识.rtf */; };
 		161B504D2708027C0049DCCD /* 二、视图UIView和层CALayer.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 161B504C2708027C0049DCCD /* 二、视图UIView和层CALayer.rtf */; };
 		161B504F27099B3A0049DCCD /* 三、视图控制器UIVIewController.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 161B504E27099B3A0049DCCD /* 三、视图控制器UIVIewController.rtf */; };
+		16315A4227143B720090CB6D /* 五、触屏事件与手势.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 16315A4127143B720090CB6D /* 五、触屏事件与手势.rtf */; };
+		16A1B1812715342900AF9583 /* 六、动画、声音与视频.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 16A1B1802715342900AF9583 /* 六、动画、声音与视频.rtf */; };
+		16A1B18327153C4100AF9583 /* 七、网络请求和Alamofire.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 16A1B18227153C4100AF9583 /* 七、网络请求和Alamofire.rtf */; };
+		16BBA0FD270C0CA70085082B /* 四、UIKit常用控件.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 16BBA0FC270C0CA70085082B /* 四、UIKit常用控件.rtf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		161B504A270741E80049DCCD /* 一、swift基础知识.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "一、swift基础知识.rtf"; sourceTree = "<group>"; };
 		161B504C2708027C0049DCCD /* 二、视图UIView和层CALayer.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "二、视图UIView和层CALayer.rtf"; sourceTree = "<group>"; };
 		161B504E27099B3A0049DCCD /* 三、视图控制器UIVIewController.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "三、视图控制器UIVIewController.rtf"; sourceTree = "<group>"; };
+		16315A4127143B720090CB6D /* 五、触屏事件与手势.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "五、触屏事件与手势.rtf"; sourceTree = "<group>"; };
+		16A1B1802715342900AF9583 /* 六、动画、声音与视频.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "六、动画、声音与视频.rtf"; sourceTree = "<group>"; };
+		16A1B18227153C4100AF9583 /* 七、网络请求和Alamofire.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "七、网络请求和Alamofire.rtf"; sourceTree = "<group>"; };
+		16BBA0FC270C0CA70085082B /* 四、UIKit常用控件.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "四、UIKit常用控件.rtf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +74,10 @@
 				161B504A270741E80049DCCD /* 一、swift基础知识.rtf */,
 				161B504C2708027C0049DCCD /* 二、视图UIView和层CALayer.rtf */,
 				161B504E27099B3A0049DCCD /* 三、视图控制器UIVIewController.rtf */,
+				16BBA0FC270C0CA70085082B /* 四、UIKit常用控件.rtf */,
+				16315A4127143B720090CB6D /* 五、触屏事件与手势.rtf */,
+				16A1B1802715342900AF9583 /* 六、动画、声音与视频.rtf */,
+				16A1B18227153C4100AF9583 /* 七、网络请求和Alamofire.rtf */,
 			);
 			path = demo;
 			sourceTree = "<group>";
@@ -135,8 +147,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16315A4227143B720090CB6D /* 五、触屏事件与手势.rtf in Resources */,
 				161B50432706C44A0049DCCD /* Preview Assets.xcassets in Resources */,
+				16A1B1812715342900AF9583 /* 六、动画、声音与视频.rtf in Resources */,
 				161B50402706C44A0049DCCD /* Assets.xcassets in Resources */,
+				16A1B18327153C4100AF9583 /* 七、网络请求和Alamofire.rtf in Resources */,
+				16BBA0FD270C0CA70085082B /* 四、UIKit常用控件.rtf in Resources */,
 				161B504D2708027C0049DCCD /* 二、视图UIView和层CALayer.rtf in Resources */,
 				161B504F27099B3A0049DCCD /* 三、视图控制器UIVIewController.rtf in Resources */,
 				161B504B270741E80049DCCD /* 一、swift基础知识.rtf in Resources */,

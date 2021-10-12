@@ -43,7 +43,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if(cell == nil)
         {
-            cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identifier)
+            cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: identifier)
         }
         if (indexPath as NSIndexPath).row % 2 == 0
         {
