@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,14 +16,14 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jNa-1W-qWE" userLabel="MainView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DlF-iX-zPl" userLabel="编辑会员容器">
-                                        <rect key="frame" x="0.0" y="68" width="375" height="41"/>
+                                        <rect key="frame" x="0.0" y="68" width="414" height="41"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="编辑会员" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2br-3h-MQe">
                                                 <rect key="frame" x="40" y="8" width="126" height="21"/>
@@ -39,7 +37,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_30" translatesAutoresizingMaskIntoConstraints="NO" id="8kd-6P-5CZ">
-                                                <rect key="frame" x="352" y="14" width="7" height="11"/>
+                                                <rect key="frame" x="391" y="14" width="7" height="11"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="7" id="8S1-go-Ss1"/>
                                                     <constraint firstAttribute="height" constant="11" id="IEd-42-8zA"/>
@@ -53,7 +51,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l8h-bg-ZAY" userLabel="删除会员容器">
-                                        <rect key="frame" x="0.0" y="105" width="375" height="41"/>
+                                        <rect key="frame" x="0.0" y="105" width="414" height="41"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="删除会员" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="12v-hq-2Dv">
                                                 <rect key="frame" x="40" y="9" width="229" height="21"/>
@@ -63,7 +61,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_30" translatesAutoresizingMaskIntoConstraints="NO" id="SUS-KR-32H">
-                                                <rect key="frame" x="352" y="14" width="7" height="11"/>
+                                                <rect key="frame" x="391" y="14" width="7" height="11"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="7" id="CV2-wj-2eM"/>
                                                     <constraint firstAttribute="height" constant="11" id="iGo-hB-gnC"/>
@@ -87,14 +85,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aka-CB-80D" userLabel="细分隔线2">
-                                        <rect key="frame" x="18" y="195" width="357" height="2"/>
+                                        <rect key="frame" x="18" y="195" width="396" height="2"/>
                                         <color key="backgroundColor" red="0.23529411759999999" green="0.63137254899999995" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="2" id="nsM-Wc-Uuv"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zJG-oa-vdd" userLabel="细分隔线1">
-                                        <rect key="frame" x="18" y="105" width="357" height="2"/>
+                                        <rect key="frame" x="18" y="105" width="396" height="2"/>
                                         <color key="backgroundColor" red="0.23529411759999999" green="0.63137254899999995" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="2" id="BBQ-XL-Oja"/>
@@ -105,14 +103,14 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mNa-fO-B7s" userLabel="粗分隔线">
-                                        <rect key="frame" x="0.0" y="142" width="375" height="15"/>
+                                        <rect key="frame" x="0.0" y="142" width="414" height="15"/>
                                         <color key="backgroundColor" red="0.41176470590000003" green="0.74117647060000003" blue="0.17254901959999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="T5k-f0-nQ9"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iLU-Ah-aEt">
-                                        <rect key="frame" x="18" y="598" width="339" height="43"/>
+                                        <rect key="frame" x="18" y="793" width="378" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="43" id="xQN-Dw-f2u"/>
                                         </constraints>
@@ -120,7 +118,7 @@
                                         <state key="normal" title="添加新的会员" backgroundImage="btn_01"/>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_22.png" translatesAutoresizingMaskIntoConstraints="NO" id="FdH-uf-lU4" userLabel="无数据">
-                                        <rect key="frame" x="137.5" y="240" width="100" height="100"/>
+                                        <rect key="frame" x="157" y="240" width="100" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="gxe-OA-4Lj"/>
                                             <constraint firstAttribute="height" constant="100" id="v1s-ma-7Po"/>
@@ -167,11 +165,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="New players" width="12" height="13"/>
-        <image name="Remove players" width="12" height="13"/>
-        <image name="btn_01" width="196" height="39"/>
-        <image name="icon_21" width="15" height="12"/>
-        <image name="icon_30" width="7" height="11"/>
+        <image name="New players" width="15.666666984558105" height="16.333333969116211"/>
+        <image name="Remove players" width="16" height="16.333333969116211"/>
+        <image name="btn_01" width="253.33332824707031" height="51.333332061767578"/>
+        <image name="icon_21" width="19.333333969116211" height="16"/>
+        <image name="icon_30" width="8.3333330154418945" height="14"/>
         <image name="img_22.png" width="230" height="230"/>
     </resources>
 </document>

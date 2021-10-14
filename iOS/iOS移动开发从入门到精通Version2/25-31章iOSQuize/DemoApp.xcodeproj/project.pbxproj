@@ -633,8 +633,10 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = C463679F1CEDA1DB0041DF70;
 			productRefGroup = C46367A91CEDA1DB0041DF70 /* Products */;
@@ -984,7 +986,7 @@
 				PROVISIONING_PROFILE = "10f2a2ed-f43c-4503-87d2-9e781ed845bc";
 				PROVISIONING_PROFILE_SPECIFIER = "Dev-iOS1000quizes";
 				SWIFT_OBJC_BRIDGING_HEADER = DemoApp/Header.h;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1036,7 +1038,7 @@
 				PROVISIONING_PROFILE = "dec3d808-0226-47e8-a752-b2c1c5d9b933";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = DemoApp/Header.h;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

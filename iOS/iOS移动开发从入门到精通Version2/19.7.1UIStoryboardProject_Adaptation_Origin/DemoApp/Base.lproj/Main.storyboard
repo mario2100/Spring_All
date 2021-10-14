@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -115,10 +113,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="New players" width="12" height="13"/>
-        <image name="Remove players" width="12" height="13"/>
-        <image name="btn_01" width="196" height="39"/>
-        <image name="icon_21" width="15" height="12"/>
+        <image name="New players" width="12.5" height="13"/>
+        <image name="Remove players" width="12.5" height="13"/>
+        <image name="btn_01" width="196" height="39.5"/>
+        <image name="icon_21" width="15" height="12.5"/>
         <image name="icon_30" width="7" height="11"/>
         <image name="img_22.png" width="230" height="230"/>
     </resources>
