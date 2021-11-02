@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.gupaoedu.vip.spring.demo.service.IQueryService;
-import com.gupaoedu.vip.spring.formework.annotation.GPService;
+import com.gupaoedu.vip.spring.framework.annotation.GPService;
 import lombok.extern.slf4j.Slf4j;
 
 /**

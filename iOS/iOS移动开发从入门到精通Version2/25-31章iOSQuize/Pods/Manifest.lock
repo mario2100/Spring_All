@@ -21,6 +21,16 @@ DEPENDENCIES:
   - Toaster (~> 2.0)
   - UICircularProgressRing
 
+SPEC REPOS:
+  https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
+    - Alamofire
+    - AlamofireObjectMapper
+    - ObjectMapper
+    - PKHUD
+    - SwiftyStoreKit
+    - Toaster
+    - UICircularProgressRing
+
 EXTERNAL SOURCES:
   ChameleonFramework:
     :git: https://github.com/ViccAlexander/Chameleon.git
@@ -40,6 +50,6 @@ SPEC CHECKSUMS:
   Toaster: 8c3225dc465bef4aa57e147a288724576df8e439
   UICircularProgressRing: 5aca63423d913dc967661370e94e2af0770dd9cd
 
-PODFILE CHECKSUM: 70436054109ff064a32b5e357081c16a4cc34941
+PODFILE CHECKSUM: 7813d94fc27b0d3749012fec3958b4a2cf9e55c4
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.10.1

@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.gupaoedu.vip.spring.demo.service.IModifyService;
 import com.gupaoedu.vip.spring.demo.service.IQueryService;
-import com.gupaoedu.vip.spring.formework.annotation.GPAutowired;
-import com.gupaoedu.vip.spring.formework.annotation.GPController;
-import com.gupaoedu.vip.spring.formework.annotation.GPRequestMapping;
-import com.gupaoedu.vip.spring.formework.annotation.GPRequestParam;
-import com.gupaoedu.vip.spring.formework.webmvc.servlet.GPModelAndView;
+import com.gupaoedu.vip.spring.framework.annotation.GPAutowired;
+import com.gupaoedu.vip.spring.framework.annotation.GPController;
+import com.gupaoedu.vip.spring.framework.annotation.GPRequestMapping;
+import com.gupaoedu.vip.spring.framework.annotation.GPRequestParam;
+import com.gupaoedu.vip.spring.framework.webmvc.servlet.GPModelAndView;
 
 /**
  * 公布接口url

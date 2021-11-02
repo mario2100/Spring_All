@@ -1,6 +1,6 @@
 package com.gupaoedu.vip.spring.demo.aspect;
 
-import com.gupaoedu.vip.spring.formework.aop.aspect.GPJoinPoint;
+import com.gupaoedu.vip.spring.framework.aop.aspect.GPJoinPoint;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;

@@ -49,8 +49,8 @@ class ViewController: UIViewController {
         let label4 = UILabel(frame: CGRect(x: 20, y: 290, width: 200, height: 30))
         //设置个性化文本
         let attri = NSMutableAttributedString(string: "我是个性化文本")
-        attri.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 20),NSForegroundColorAttributeName:UIColor.red], range: NSRange(location: 0, length: 2))
-        attri.addAttributes([NSFontAttributeName:UIFont.systemFont(ofSize: 13),NSForegroundColorAttributeName:UIColor.blue], range: NSRange(location: 3, length: 3))
+        attri.addAttributes([NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: 20),NSAttributedStringKey.foregroundColor:UIColor.red], range: NSRange(location: 0, length: 2))
+        attri.addAttributes([NSAttributedStringKey.font:UIFont.systemFont(ofSize: 13),NSAttributedStringKey.foregroundColor:UIColor.blue], range: NSRange(location: 3, length: 3))
         label4.attributedText = attri;
         //将其添加到当前视图上
         self.view.addSubview(label4)

@@ -1,7 +1,7 @@
 package com.gupaoedu.vip.spring.demo.service.impl;
 
 import com.gupaoedu.vip.spring.demo.service.IModifyService;
-import com.gupaoedu.vip.spring.formework.annotation.GPService;
+import com.gupaoedu.vip.spring.framework.annotation.GPService;
 
 /**
  * 增删改业务
