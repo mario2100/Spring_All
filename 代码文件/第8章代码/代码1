@@ -1,0 +1,54 @@
+private void pollForTask(Worker worker) {
+    if(eurekaClient != null && !eurekaClient.getInstanceRemoteStatus().equals(InstanceStatus.UP)) {
+        logger.debug("Instance is NOT UP in discovery - will not poll");
+        return;
+    }
+    if(worker.paused()) {
+        WorkflowTaskMetrics.incrementTaskPausedCount(worker.getTaskDefName());
+        logger.debug("Worker {} has been paused. Not polling anymore!", worker.getClass());
+        return;
+    }
+    String domain = Optional.ofNullable(PropertyFactory.getString(worker.getTaskDefName(), DOMAIN, null))
+            .orElse(PropertyFactory.getString(ALL_WORKERS, DOMAIN, null));
+    logger.debug("Polling {}, domain={}, count = {} timeout = {} ms", worker.getTaskDefName(), domain, worker.getPollCount(), worker.getLongPollTimeoutInMS());
+    List<Task> tasks = Collections.emptyList();
+    try{
+        // get the remaining capacity of worker queue to prevent queue full exception
+        int realPollCount = Math.min(workerQueue.remainingCapacity(), worker.getPollCount());
+        if (realPollCount <= 0) {
+            logger.warn("All workers are busy, not polling. queue size = {}, max = {}", workerQueue.size(), workerQueueSize);
+            return;
+        }
+        //获取当前客户端的任务名称
+        String taskType = worker.getTaskDefName();
+        //根据当前客户端的任务名称从server端的状态机获取是否有自己要执行的任务，如果有任务则获取执行，只能获取一次。
+        tasks = getPollTimer(taskType)
+                .record(() -> taskClient.batchPollTasksInDomain(taskType, domain, worker.getIdentity(), realPollCount, worker.getLongPollTimeoutInMS()));
+        incrementTaskPollCount(taskType, tasks.size());
+        logger.debug("Polled {}, domain {}, received {} tasks in worker - {}", worker.getTaskDefName(), domain, tasks.size(), worker.getIdentity());
+    } catch (Exception e) {
+        WorkflowTaskMetrics.incrementTaskPollErrorCount(worker.getTaskDefName(), e);
+        logger.error("Error when polling for tasks", e);
+    }
+    //根据获取的任务列表，以线程的方式启动执行任务
+    for (Task task : tasks) {
+        try {
+            executorService.submit(() -> {
+                try {
+                    logger.debug("Executing task {}, taskId - {} in worker - {}", task.getTaskDefName(), task.getTaskId(), worker.getIdentity());
+                    //这步就是执行用户自定义的任务逻辑
+                    execute(worker, task);
+                } catch (Throwable t) {
+                    //执行失败，置任务状态为失败，并将失败结果返回到server端
+                    task.setStatus(Task.Status.FAILED);
+                    TaskResult result = new TaskResult(task);
+                    handleException(t, result, worker, task);
+                }
+            });
+        } catch (RejectedExecutionException e) {
+            WorkflowTaskMetrics.incrementTaskExecutionQueueFullCount(worker.getTaskDefName());
+            logger.error("Execution queue is full, returning task: {}", task.getTaskId(), e);
+            returnTask(worker, task);
+        }
+    }
+}

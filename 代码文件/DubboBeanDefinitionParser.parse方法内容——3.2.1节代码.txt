@@ -1,0 +1,237 @@
+    //解析dubbo自定义标签,往BeanDefinition设置属性值 
+    @SuppressWarnings("unchecked")
+    private static BeanDefinition parse(Element element, ParserContext parserContext, Class<?> beanClass, boolean required) {
+        RootBeanDefinition beanDefinition = new RootBeanDefinition();
+        beanDefinition.setBeanClass(beanClass);
+        /** 设置懒加载
+             false时Spring启动立刻实例化
+             true时通过第一次使用Spring getBean时实例化
+       **/
+        beanDefinition.setLazyInit(false);
+        String id = element.getAttribute("id");
+       //如果配置文件的id不存在，则使用name属性
+        if ((id == null || id.length() == 0) && required) {
+            String generatedBeanName = element.getAttribute("name");
+            /** 如果name也没有配置，如果Class类型是ProtocolConfig，则采用默认的dubbo字符串为name值
+                否则使用interface名称作为name值 **/
+            if (generatedBeanName == null || generatedBeanName.length() == 0) {
+                if (ProtocolConfig.class.equals(beanClass)) {
+                    generatedBeanName = "dubbo";
+                } else {
+                    generatedBeanName = element.getAttribute("interface");
+                }
+            }
+            /** 如果最终beanName还是为null，那么就取配置类的名称
+                 比如：com.alibaba.dubbo.config.ReferenceConfig **/
+            if (generatedBeanName == null || generatedBeanName.length() == 0) {
+                generatedBeanName = beanClass.getName();
+            }
+            id = generatedBeanName;
+            int counter = 2;
+            /** 因为这是在id为null的情况下，使用其他值作为id，所以有些id可能会重复，重复的使用beanName+counter值往后顺延
+                比如：registryFactory2，registryFactory3等等。**/
+            while(parserContext.getRegistry().containsBeanDefinition(id)) {
+                id = generatedBeanName + (counter ++);
+            }
+        }
+       
+        if (id != null && id.length() > 0) {
+             //bean id 有重复则报错
+            if (parserContext.getRegistry().containsBeanDefinition(id))  {
+                throw new IllegalStateException("Duplicate spring bean id " + id);
+            }
+            /** 注册bean的定义 **/
+            parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
+            beanDefinition.getPropertyValues().addPropertyValue("id", id);
+        }
+        if (ProtocolConfig.class.equals(beanClass)) {
+            for (String name : parserContext.getRegistry().getBeanDefinitionNames()) {
+                BeanDefinition definition = parserContext.getRegistry().getBeanDefinition (name);
+                PropertyValue property = definition.getPropertyValues().getPropertyValue ("protocol");
+                if (property != null) {
+                    Object value = property.getValue();
+                    if (value instanceof ProtocolConfig && id.equals(((ProtocolConfig) value).getName())) {
+                        definition.getPropertyValues().addPropertyValue("protocol", new RuntimeBeanReference(id));
+                    }
+                }
+            }
+        } 
+       /** 判断beanClass是否是ServiceBean
+           这里面实际上是解析dubbo的service标签
+      **/
+       else if (ServiceBean.class.equals(beanClass)) {
+            //获取类的全路径名
+            String className = element.getAttribute("class");
+            if(className != null && className.length() > 0) {
+                RootBeanDefinition classDefinition = new RootBeanDefinition();
+                //通过反射获取Class类
+                classDefinition.setBeanClass(ReflectUtils.forName(className));
+                classDefinition.setLazyInit(false);
+                //如果dubbo标签中有property子标签则进行解析
+                parseProperties(element.getChildNodes(), classDefinition);
+                 //对于service标签来说，如果是服务提供者，还需要使用ref属性设置接口实现类，
+                 //默认使用id+"impl"来表示实现类名称
+                beanDefinition.getPropertyValues().addPropertyValue("ref", new BeanDefinitionHolder(classDefinition, id + "Impl"));
+            }
+        } 
+        //dubbo provider作为dubbo service标签的缺省配置项，service标签没有配置的属性值
+        //可以使用provider的填充
+       else if (ProviderConfig.class.equals(beanClass)) {
+            parseNested(element, parserContext, ServiceBean.class, true, "service", "provider", id, beanDefinition);
+        } 
+         //dubbo consumer作为dubbo reference标签的缺省配置项，reference标签没有配置的
+         //属性值可以使用consumer的填充
+        else if (ConsumerConfig.class.equals(beanClass)) {
+            parseNested(element, parserContext, ReferenceBean.class, false, "reference", "consumer", id, beanDefinition);
+        }
+        Set<String> props = new HashSet<String>();
+        ManagedMap parameters = null;
+        for (Method setter : beanClass.getMethods()) {
+            String name = setter.getName();
+            //获取bean中所有set开头的方法
+            if (name.length() > 3 && name.startsWith("set")
+                    && Modifier.isPublic(setter.getModifiers())
+                    && setter.getParameterTypes().length == 1) {
+                Class<?> type = setter.getParameterTypes()[0];
+                //通过截取字符串，获取set方法的属性名称
+                String property = StringUtils.camelToSplitName(name.substring(3, 4). toLowerCase() + name.substring(4), "-");
+                props.add(property);
+                Method getter = null;
+                try {
+                    getter = beanClass.getMethod("get" + name.substring(3), new Class<?> [0]);
+                } catch (NoSuchMethodException e) {
+                    try {
+                        getter = beanClass.getMethod("is" + name.substring(3), new Class<?>[0]);
+                    } catch (NoSuchMethodException e2) {
+                    }
+                }
+                if (getter == null
+                        || ! Modifier.isPublic(getter.getModifiers())
+                        || ! type.equals(getter.getReturnType())) {
+                    continue;
+                }
+                /** 
+                    如果dubbo标签的子标签是parameters，则解析子标签封装到BeanDefinition中
+                    参照xml配置例子如下：
+                    <dubbo:protocol name="dubbo" host="localhost" port="8080" accepts= "1000"  >
+                        <dubbo:parameter key="test" value="test" />
+                        <dubbo:parameter key="demo" value="demo" />
+                    </dubbo:protocol>
+                **/
+                if ("parameters".equals(property)) {
+                    parameters = parseParameters(element.getChildNodes(), beanDefinition);
+                }
+                //如果子标签中有methods，则解析配置文件将内容封装到MethodConfig类中并注册到beanDefinition中
+               else if ("methods".equals(property)) {
+                    parseMethods(id, element.getChildNodes(), beanDefinition, parserContext);
+                } 
+                //如果子标签中有arguments，则解析配置文件将内容封装到ArgumentsConfig类中
+                //并注册到beanDefinition中
+                else if ("arguments".equals(property)) {
+                    parseArguments(id, element.getChildNodes(), beanDefinition, parserContext);
+                } else {
+                    String value = element.getAttribute(property);
+                    if (value != null) {
+                        value = value.trim();
+                        if (value.length() > 0) {
+                            //如果不想通过注册中心来发布和获取服务，只需要设置属性值
+                            //registry="N/A"即可以走点对点连通
+                            if ("registry".equals(property) && RegistryConfig. NO_AVAILABLE.equalsIgnoreCase(value)) {
+                                RegistryConfig registryConfig = new RegistryConfig();
+                                registryConfig.setAddress(RegistryConfig.NO_AVAILABLE);
+                                beanDefinition.getPropertyValues().addPropertyValue (property, registryConfig);
+                            } 
+                            //多注册中心的情况下，使用逗号分隔
+                            else if ("registry".equals(property) && value.indexOf(',')
+ != -1) {
+                                parseMultiRef("registries", value, beanDefinition, parserContext);
+                            } 
+                            //多个服务提供者，使用逗号分隔
+                            else if ("provider".equals(property) && value.indexOf (',') != -1) {
+                                parseMultiRef("providers", value, beanDefinition, parserContext);
+                            } 
+                            //多个协议，使用逗号分隔
+                            else if ("protocol".equals(property) && value.indexOf (',') != -1) {
+                                parseMultiRef("protocols", value, beanDefinition, parserContext);
+                            } else {
+                                Object reference;
+                                if (isPrimitive(type)) {
+                                    if ("async".equals(property) && "false".equals(value)
+                                            || "timeout".equals(property) && "0".equals(value)
+                                            || "delay".equals(property) && "0".equals(value)
+                                            || "version".equals(property) && "0.0.0".equals(value)
+                                            || "stat".equals(property) && "-1".equals(value)
+                                            || "reliable".equals(property) && "false".equals (value)) {
+                                        // 兼容旧版本xsd中的default值
+                                        value = null;
+                                    }
+                                    reference = value;
+                                } 
+                                /** 检查当前的protocol是否提供了外部扩展点（在后面的小节中
+                                    会重点介绍）并且解析上下文parserContext中是否已经包括
+                                    了配置BeanDefinition **/
+                                else if ("protocol".equals(property)
+                                        && ExtensionLoader.getExtensionLoader (Protocol.class).hasExtension(value)
+                                        && (! parserContext.getRegistry(). containsBeanDefinition(value)
+                                                || ! ProtocolConfig.class.getName().equals (parserContext.getRegistry().getBeanDefinition(value).getBeanClassName()))) {
+                                    if ("dubbo:provider".equals(element.getTagName())) {
+                                        logger.warn("Recommended replace <dubbo:provider protocol=\"" + value + "\" ... /> to <dubbo:protocol name=\"" + value + "\" ... />");
+                                    }
+                                    // 兼容旧版本配置
+                                    ProtocolConfig protocol = new ProtocolConfig();
+                                    protocol.setName(value);
+                                    reference = protocol;
+                                } else if ("monitor".equals(property)
+                                        && (! parserContext.getRegistry().containsBean- Definition(value)
+                                                || ! MonitorConfig.class.getName().equals (parserContext.getRegistry().getBeanDefinition(value).getBeanClassName()))) {
+                                    // 兼容旧版本配置
+                                    reference = convertMonitor(value);
+                                } else if ("onreturn".equals(property)) {
+                                    int index = value.lastIndexOf(".");
+                                    String returnRef = value.substring(0, index);
+                                    String returnMethod = value.substring(index + 1);
+                                    reference = new RuntimeBeanReference(returnRef);
+                                    beanDefinition.getPropertyValues(). addPropertyValue("onreturnMethod", returnMethod);
+                                } else if ("onthrow".equals(property)) {
+                                    int index = value.lastIndexOf(".");
+                                    String throwRef = value.substring(0, index);
+                                    String throwMethod = value.substring(index + 1);
+                                    reference = new RuntimeBeanReference(throwRef);
+                                    beanDefinition.getPropertyValues().addPropertyValue ("onthrowMethod", throwMethod);
+                                } else {
+                                    if ("ref".equals(property) && parserContext.getRegistry(). containsBeanDefinition(value)) {
+                                        BeanDefinition refBean = parserContext.getRegistry(). getBeanDefinition(value);
+
+                                        //Dubbo所使用的服务实现类必须是单例的才可以
+                                        if (! refBean.isSingleton()) {
+                                            throw new IllegalStateException("The exported service ref " + value + " must be singleton! Please set the " + value + " bean scope to singleton, eg: <bean id=\"" + value+ "\" scope=\"singleton\" ...>");
+                                        }
+                                    }
+                                    reference = new RuntimeBeanReference(value);
+                                }
+                                beanDefinition.getPropertyValues().addPropertyValue (property, reference);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        NamedNodeMap attributes = element.getAttributes();
+        int len = attributes.getLength();
+        for (int i = 0; i < len; i++) {
+            Node node = attributes.item(i);
+            String name = node.getLocalName();
+            if (! props.contains(name)) {
+                if (parameters == null) {
+                    parameters = new ManagedMap();
+                }
+                String value = node.getNodeValue();
+                parameters.put(name, new TypedStringValue(value, String.class));
+            }
+        }
+        if (parameters != null) {
+            beanDefinition.getPropertyValues().addPropertyValue("parameters", parameters);
+        }
+        return beanDefinition;
+ }
+

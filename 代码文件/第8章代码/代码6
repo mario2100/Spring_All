@@ -1,0 +1,58 @@
+public boolean decide(String workflowId) {
+
+    // If it is a new workflow, the tasks will be still empty even though include tasks is true
+    Workflow workflow = executionDAO.getWorkflow(workflowId, true);
+    WorkflowDef workflowDef = metadataDAO.get(workflow.getWorkflowType(), workflow.getVersion());
+
+    try {
+        //方法中最核心的代码，通过deciderServer.decide获取下一个要执行的任务，返回到DeciderOutcome对象中
+        DeciderOutcome outcome = deciderService.decide(workflow, workflowDef);
+        if (outcome.isComplete) {
+            completeWorkflow(workflow);
+            return true;
+        }
+        //taskToBeScheduled是执行的下一个任务列表，由DecideSerivce.decide方法赋值
+        List<Task> tasksToBeScheduled = outcome.tasksToBeScheduled;
+        setTaskDomains(tasksToBeScheduled, workflow);
+        List<Task> tasksToBeUpdated = outcome.tasksToBeUpdated;
+        List<Task> tasksToBeRequeued = outcome.tasksToBeRequeued;
+        boolean stateChanged = false;
+
+        if (!tasksToBeRequeued.isEmpty()) {
+            //如果要执行的任务列表不为空，则将任务添加到Dyno-queue队列中
+            addTaskToQueue(tasksToBeRequeued);
+        }
+        workflow.getTasks().addAll(tasksToBeScheduled);
+
+        for (Task task : tasksToBeScheduled) {
+            if (isSystemTask.and(isNonTerminalTask).test(task)) {
+                WorkflowSystemTask workflowSystemTask = WorkflowSystemTask.get(task.getTaskType());
+                if (!workflowSystemTask.isAsync() && workflowSystemTask.execute(workflow, task, this)) {
+                    tasksToBeUpdated.add(task);
+                    stateChanged = true;
+                }
+            }
+        }
+        //创建要执行的任务记录，判断当前任务的类型是不是异步的，如果是异步的则开始异步的工作流系统任务，最后将过滤完的任务添加到Dyno-queue队列中
+        stateChanged = scheduleTask(workflow, tasksToBeScheduled) || stateChanged;
+
+        if (!outcome.tasksToBeUpdated.isEmpty() || !outcome.tasksToBeScheduled.isEmpty()) {
+            executionDAO.updateTasks(tasksToBeUpdated);
+            executionDAO.updateWorkflow(workflow);
+            queueDAO.push(deciderQueue, workflow.getWorkflowId(), config.getSweepFrequency());
+        }
+
+        if (stateChanged) {
+            decide(workflowId);
+        }
+
+    } catch (TerminateWorkflowException twe) {
+        logger.info("Execution terminated of workflow: {} of type: {}", workflowId, workflowDef.getName(), twe);
+        terminate(workflowDef, workflow, twe);
+        return true;
+    } catch (RuntimeException e) {
+        logger.error("Error deciding workflow: {}", workflowId, e);
+        throw e;
+    }
+    return false;
+}

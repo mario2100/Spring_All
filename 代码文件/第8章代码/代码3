@@ -1,0 +1,46 @@
+private void init(String dynoClusterName, List<Host> dynoHosts) {
+    HostSupplier hostSupplier = () -> dynoHosts;
+
+    JedisCommands jedis = null;
+    switch(database) {
+    case redis:     
+    case dynomite:
+        ConnectionPoolConfigurationImpl connectionPoolConfiguration = new ConnectionPoolConfigurationImpl(dynoClusterName)
+                .withTokenSupplier(getTokenMapSupplier(dynoHosts))
+                .setLocalRack(conductorConfig.getAvailabilityZone())
+                .setLocalDataCenter(conductorConfig.getRegion())
+                .setSocketTimeout(0)
+                .setConnectTimeout(0)
+                .setMaxConnsPerHost(conductorConfig.getIntProperty("workflow.dynomite.connection.maxConnsPerHost", 10));
+        jedis = new DynoJedisClient.Builder()
+                .withHostSupplier(hostSupplier)
+                .withApplicationName(conductorConfig.getAppId())
+                .withDynomiteClusterName(dynoClusterName)
+                .withCPConfig(connectionPoolConfiguration)
+                .build();
+
+        logger.info("Starting conductor server using dynomite/redis cluster " + dynoClusterName);
+
+        break;
+
+    case mysql:
+        logger.info("Starting conductor server using MySQL data store", database);
+        ElasticSearchStart();
+        break;
+    case memory:
+        jedis = new JedisMock();
+        ElasticSearchStart();
+        logger.info("Starting conductor server using in memory data store");
+        break;
+    case redis_cluster:
+        Host host = dynoHosts.get(0);
+        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+        poolConfig.setMinIdle(5);
+        poolConfig.setMaxTotal(1000);
+        jedis = new JedisCluster(new HostAndPort(host.getHostName(), host.getPort()), poolConfig);
+        logger.info("Starting conductor server using redis_cluster " + dynoClusterName);
+        break;
+    }
+
+    this.serverModule = new ServerModule(jedis, hostSupplier, conductorConfig, database, externalPayloadStorageType);
+}

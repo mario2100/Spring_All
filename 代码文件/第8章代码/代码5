@@ -1,0 +1,117 @@
+public void updateTask(TaskResult taskResult) {
+    if (taskResult == null) {
+        logger.info("null task given for update");
+        throw new ApplicationException(Code.INVALID_INPUT, "Task object is null");
+    }
+    //获得工作流ID
+    String workflowId = taskResult.getWorkflowInstanceId();
+    //通过工作流ID获取当前正在执行的工作流运行时数据
+    Workflow workflowInstance = executionDAO.getWorkflow(workflowId);
+    //通过任务ID获取当前正在执行的任务
+    Task task = executionDAO.getTask(taskResult.getTaskId());
+
+    logger.debug("Task: {} belonging to Workflow {} being updated", task, workflowInstance);
+
+    //获取任务队列的名字，这个名字主要是用于Dyno-queue队列
+    String taskQueueName = QueueUtils.getQueueName(task);
+    if (workflowInstance.getStatus().isTerminal()) {
+        // Workflow is in terminal state
+        queueDAO.remove(taskQueueName, taskResult.getTaskId());
+        logger.debug("Workflow: {} is in terminal state Task: {} removed from Queue: {} during update task", workflowInstance, task, taskQueueName);
+        //设置需要更新的任务数据
+        if (!task.getStatus().isTerminal()) {
+            task.setStatus(COMPLETED);
+        }
+        task.setOutputData(taskResult.getOutputData());
+        task.setReasonForIncompletion(taskResult.getReasonForIncompletion());
+        task.setWorkerId(taskResult.getWorkerId());
+        //更新任务信息和状态数据
+        executionDAO.updateTask(task);
+        String msg = String.format("Workflow %s is already completed as %s, task=%s, reason=%s",
+                workflowInstance.getWorkflowId(), workflowInstance.getStatus(), task.getTaskType(), workflowInstance.getReasonForIncompletion());
+        logger.info(msg);
+        Monitors.recordUpdateConflict(task.getTaskType(), workflowInstance.getWorkflowType(), workflowInstance.getStatus());
+        return;
+    }
+
+    if (task.getStatus().isTerminal()) {
+        // Task was already updated....
+        //如果更新状态是中止的，则从队列中移除该任务
+        queueDAO.remove(taskQueueName, taskResult.getTaskId());
+        logger.debug("Task: {} is in terminal state and is removed from the queue {} ", task, taskQueueName);
+        String msg = String.format("Task is already completed as %s@%d, workflow status=%s, workflowId=%s, taskId=%s",
+                task.getStatus(), task.getEndTime(), workflowInstance.getStatus(), workflowInstance.getWorkflowId(), task.getTaskId());
+        logger.info(msg);
+        Monitors.recordUpdateConflict(task.getTaskType(), workflowInstance.getWorkflowType(), task.getStatus());
+        return;
+    }
+
+    //保存中止任务相关的数据和状态
+    task.setStatus(valueOf(taskResult.getStatus().name()));
+    task.setOutputData(taskResult.getOutputData());
+    task.setExternalOutputPayloadStoragePath(taskResult.getExternalOutputPayloadStoragePath());
+    task.setReasonForIncompletion(taskResult.getReasonForIncompletion());
+    task.setWorkerId(taskResult.getWorkerId());
+    task.setCallbackAfterSeconds(taskResult.getCallbackAfterSeconds());
+
+    if (task.getStatus().isTerminal()) {
+        task.setEndTime(System.currentTimeMillis());
+    }
+    //将任务更新为中止状态
+    executionDAO.updateTask(task);
+
+    //If the task has failed update the failed task reference name in the workflow.
+    //This gives the ability to look at workflow and see what tasks have failed at a high level.
+    if (FAILED.equals(task.getStatus()) || FAILED_WITH_TERMINAL_ERROR.equals(task.getStatus())) {
+        workflowInstance.getFailedReferenceTaskNames().add(task.getReferenceTaskName());
+        //In case of a FAILED_WITH_TERMINAL_ERROR the workflow will be terminated and the output of the task is never copied
+        //ensuring the task output is copied to the workflow here
+        if (FAILED_WITH_TERMINAL_ERROR.equals(task.getStatus())) {
+            //Update the task in the workflow instance
+            Task taskByRefName = workflowInstance.getTaskByRefName(task.getReferenceTaskName());
+            taskByRefName.setStatus(task.getStatus());
+            taskByRefName.setOutputData(task.getOutputData());
+            taskByRefName.setReasonForIncompletion(task.getReasonForIncompletion());
+            taskByRefName.setWorkerId(task.getWorkerId());
+            taskByRefName.setCallbackAfterSeconds(task.getCallbackAfterSeconds());
+            //WorkflowDef workflowDef = metadataDAO.get(workflowInstance.getWorkflowType(), workflowInstance.getVersion());
+            deciderService.updateWorkflowOutput(workflowInstance, task);
+        }
+        executionDAO.updateWorkflow(workflowInstance);
+        logger.debug("Task: {} has a {} status and the Workflow has been updated with failed task reference", task, task.getStatus());
+    }
+
+    taskResult.getLogs().forEach(taskExecLog -> taskExecLog.setTaskId(task.getTaskId()));
+    executionDAO.addTaskExecLog(taskResult.getLogs());
+
+    switch (task.getStatus()) {
+        case COMPLETED:
+        case CANCELED:
+        case FAILED:
+        case FAILED_WITH_TERMINAL_ERROR:
+            queueDAO.remove(taskQueueName, taskResult.getTaskId());
+            logger.debug("Task: {} removed from taskQueue: {} since the task status is {}", task, taskQueueName, task.getStatus().name());
+            break;
+        case IN_PROGRESS:
+            // put it back in queue based on callbackAfterSeconds
+            long callBack = taskResult.getCallbackAfterSeconds();
+            queueDAO.remove(taskQueueName, task.getTaskId());
+            logger.debug("Task: {} removed from taskQueue: {} since the task status is {}", task, taskQueueName, task.getStatus().name());
+            queueDAO.push(taskQueueName, task.getTaskId(), callBack); // Milliseconds
+            logger.debug("Task: {} pushed back to taskQueue: {} since the task status is {} with callbackAfterSeconds: {}", task, taskQueueName, task.getStatus().name(), callBack);
+            break;
+        default:
+            break;
+    }
+
+    //注意：这行代码非常关键，当前任务执行完以后根据条件判断下一个任务的过程，就是用这个方法
+    decide(workflowId);
+
+    if (task.getStatus().isTerminal()) {
+        long duration = getTaskDuration(0, task);
+        long lastDuration = task.getEndTime() - task.getStartTime();
+        Monitors.recordTaskExecutionTime(task.getTaskDefName(), duration, true, task.getStatus());
+        Monitors.recordTaskExecutionTime(task.getTaskDefName(), lastDuration, false, task.getStatus());
+    }
+
+}

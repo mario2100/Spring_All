@@ -1,0 +1,109 @@
+private DeciderOutcome decide(final WorkflowDef workflowDef, final Workflow workflow, List<Task> preScheduledTasks) throws TerminateWorkflowException {
+    //Decider选择结果类
+    DeciderOutcome outcome = new DeciderOutcome();
+
+    //判断当前工作流的状态是什么，如果是暂停状态则返回
+    if (workflow.getStatus().equals(WorkflowStatus.PAUSED)) {
+        logger.debug("Workflow " + workflow.getWorkflowId() + " is paused");
+        return outcome;
+    }
+
+    //如果当前工作流状态是中止状态，也直接返回
+    if (workflow.getStatus().isTerminal()) {
+        //you cannot evaluate a terminal workflow
+        logger.debug("Workflow " + workflow.getWorkflowId() + " is already finished. status=" + workflow.getStatus() + ", reason=" + workflow.getReasonForIncompletion());
+        return outcome;
+    }
+
+    // Filter the list of tasks and include only tasks that are not retried, not executed,
+    // marked to be skipped and not part of System tasks that is DECISION, FORK, JOIN
+    // This list will be empty for a new workflow being started
+    //筛选任务列表，只留下未重试和未执行的任务
+    //跳过不是系统任务的部分，比如DECISION，FORK，JOIN等
+    //对于一个正在启动的新的工作流，这个任务列表为空
+    List<Task> pendingTasks = workflow.getTasks()
+            .stream()
+            .filter(isNonPendingTask)
+            .collect(Collectors.toList());
+
+    // Get all the tasks that are ready to rerun or not marked to be skipped
+    // This list will be empty for a new workflow
+    Set<String> executedTaskRefNames = workflow.getTasks()
+            .stream()
+            .filter(Task::isExecuted)
+            .map(Task::getReferenceTaskName)
+            .collect(Collectors.toSet());
+
+    //Traverse the pre-scheduled tasks to a linkedHasMap
+    Map<String, Task> tasksToBeScheduled = preScheduledTasks.stream()
+            .collect(Collectors.toMap(Task::getReferenceTaskName, Function.identity(),
+                    (element1, element2) -> element2, LinkedHashMap::new));
+
+    // A new workflow does not enter this code branch
+    //新的工作流不会进入这个代码分支
+    for (Task pendingTask : pendingTasks) {
+
+        if (SystemTaskType.is(pendingTask.getTaskType()) && !pendingTask.getStatus().isTerminal()) {
+            tasksToBeScheduled.putIfAbsent(pendingTask.getReferenceTaskName(), pendingTask);//TODO This line is not needed
+            executedTaskRefNames.remove(pendingTask.getReferenceTaskName());
+        }
+
+        //获取任务定义，判断是否超时
+        TaskDef taskDefinition = metadataDAO.getTaskDef(pendingTask.getTaskDefName());
+        if (taskDefinition != null) {
+            checkForTimeout(taskDefinition, pendingTask);
+            // If the task has not been updated for "responseTimeoutSeconds" then mark task as TIMED_OUT
+            if (isResponseTimedOut(taskDefinition, pendingTask)) {
+                timeoutTask(taskDefinition, pendingTask);
+            }
+        }
+        //如果任务状态没有执行成功则进入
+        if (!pendingTask.getStatus().isSuccessful()) {
+            WorkflowTask workflowTask = pendingTask.getWorkflowTask();
+            if (workflowTask == null) {
+                workflowTask = workflowDef.getTaskByRefName(pendingTask.getReferenceTaskName());
+            }
+            //如果isOptional为true时，即使任务执行失败，工作流也会继续执行
+            if (workflowTask != null && workflowTask.isOptional()) {
+                //设置状态为完成且发生错误
+                pendingTask.setStatus(COMPLETED_WITH_ERRORS);
+            } else {
+                //如果workflowTask不为空，并且isOptional为false的时候，表示任务执行失败，工作不能不能继续执行，需要进行重试操作
+                Task retryTask = retry(taskDefinition, workflowTask, pendingTask, workflow);
+                tasksToBeScheduled.put(retryTask.getReferenceTaskName(), retryTask);
+                executedTaskRefNames.remove(retryTask.getReferenceTaskName());
+                outcome.tasksToBeUpdated.add(pendingTask);
+            }
+        }
+
+        //如果任务没有执行，也没有正在重试状态，并且当前任务已经中止了，则进入通过方法getNextTask获取下一个任务
+        if (!pendingTask.isExecuted() && !pendingTask.isRetried() && pendingTask.getStatus().isTerminal()) {
+            pendingTask.setExecuted(true);
+            //获取下一个任务
+            List<Task> nextTasks = getNextTask(workflowDef, workflow, pendingTask);
+            nextTasks.forEach(nextTask -> tasksToBeScheduled.putIfAbsent(nextTask.getReferenceTaskName(), nextTask));
+            outcome.tasksToBeUpdated.add(pendingTask);
+            logger.debug("Scheduling Tasks from {}, next = {} for workflow: {}", pendingTask.getTaskDefName(),
+                    nextTasks.stream()
+                            .map(Task::getTaskDefName)
+                            .collect(Collectors.toList()), workflow.getWorkflowId());
+        }
+    }
+
+    //All the tasks that need to scheduled are added to the outcome, in case of
+    List<Task> unScheduledTasks = tasksToBeScheduled.values().stream()
+            .filter(task -> !executedTaskRefNames.contains(task.getReferenceTaskName()))
+            .collect(Collectors.toList());
+    if (!unScheduledTasks.isEmpty()) {
+        logger.debug("Scheduling Tasks {} for workflow: {}", unScheduledTasks.stream()
+                .map(Task::getTaskDefName)
+                .collect(Collectors.toList()), workflow.getWorkflowId());
+        outcome.tasksToBeScheduled.addAll(unScheduledTasks);
+    }
+    if (outcome.tasksToBeScheduled.isEmpty() && checkForWorkflowCompletion(workflowDef, workflow)) {
+        logger.debug("Marking workflow as complete. workflow=" + workflow.getWorkflowId() + ", tasks=" + workflow.getTasks());
+        outcome.isComplete = true;
+    }
+
+    return outcome;
+}

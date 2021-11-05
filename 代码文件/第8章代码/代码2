@@ -1,0 +1,45 @@
+private void execute(Worker worker, Task task) {
+    String taskType = task.getTaskDefName();
+    try {
+        if(!worker.preAck(task)) {
+            logger.debug("Worker decided not to ack the task {}, taskId = {}", taskType, task.getTaskId());
+            return;
+        }
+        if (!taskClient.ack(task.getTaskId(), worker.getIdentity())) {
+            WorkflowTaskMetrics.incrementTaskAckFailedCount(worker.getTaskDefName());
+            logger.error("Ack failed for {}, taskId = {}", taskType, task.getTaskId());
+            returnTask(worker, task);
+            return;
+        }
+    } catch (Exception e) {
+        logger.error(String.format("ack exception for task %s, taskId = %s in worker - %s", task.getTaskDefName(), task.getTaskId(), worker.getIdentity()), e);
+        WorkflowTaskMetrics.incrementTaskAckErrorCount(worker.getTaskDefName(), e);
+        returnTask(worker, task);
+        return;
+    }
+    com.google.common.base.Stopwatch stopwatch = com.google.common.base.Stopwatch.createStarted();
+    TaskResult result = null;
+    try {
+        //前面大部分都是做监控和统计功能的，在这里不细说
+        //这段代码是真正执行用户Task任务的代码，执行完后返回值被封装为TaskResult对象
+        logger.debug("Executing task {} in worker {} at {}", task, worker.getClass().getSimpleName(), worker.getIdentity());
+        result = worker.execute(task);
+        result.setWorkflowInstanceId(task.getWorkflowInstanceId());
+        result.setTaskId(task.getTaskId());
+        result.setWorkerId(worker.getIdentity());
+    } catch (Exception e) {
+        logger.error("Unable to execute task {}", task, e);
+        if (result == null) {
+            task.setStatus(Task.Status.FAILED);
+            result = new TaskResult(task);
+        }
+        handleException(e, result, worker, task);
+    } finally {
+        stopwatch.stop();
+        WorkflowTaskMetrics.getExecutionTimer(worker.getTaskDefName())
+                .record(stopwatch.elapsed(TimeUnit.MILLISECONDS), TimeUnit.MILLISECONDS);
+    }
+    logger.debug("Task {} executed by worker {} at {} with status {}", task.getTaskId(), worker.getClass().getSimpleName(), worker.getIdentity(), task.getStatus());
+    //更新任务状态，成功或者失败
+    updateWithRetry(updateRetryCount, task, result, worker);
+}

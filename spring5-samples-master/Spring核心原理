@@ -1,0 +1,43 @@
+Spring核心原理
+一个servlet request的处理流程
+servlet的配置
+ dispatchServlet
+
+ @Service注解
+
+ @Autowired注解
+
+ @Controller注解
+
+ @RequestMapping注解
+
+ @RequestParm注解
+
+ 容器初始化
+ DispatchServlet
+
+ mapping处理：扫描包配置
+ 反射动态调用
+
+
+//加载配置文件
+//扫描相关类
+//初始化类放入IOC容器
+//完成依赖注入
+//初始化handlermapping
+
+//匹配url
+//方法形参列表
+
+//功能模块层面
+//IOC 
+//DI ：第一次getBean 预实例化
+//MVC
+
+//代码结构层面
+//注解块
+//aop
+//context
+//core顶层接口设计：BeanFactory：IOC中获取一个实例  FactoryBean：自定义bean创建过程 BeanDefinition：描述 bean定义信息  BeanDefinitionReader：读取bean信息 
+//jdbc 数据源
+//webmvc servlet

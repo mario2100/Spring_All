@@ -1,0 +1,44 @@
+@Override
+protected void configure() {
+
+   configureExecutorService();
+   //当程序遇到Configuartaion类的时候会自动注入ConductorConfig类
+   bind(Configuration.class).toInstance(conductorConfig);
+
+   if (db == ConductorServer.DB.mysql) {
+      //安装MysqlModule依赖注入
+      install(new MySQLWorkflowModule());
+   } else {
+     //安装RedisModule依赖注入
+      install(new RedisWorkflowModule(conductorConfig, dynoConn, hostSupplier));
+   }
+
+   if (conductorConfig.getProperty("workflow.elasticsearch.version", "2").equals("5")){
+      //安装ES5依赖注入
+      install(new ElasticSearchModuleV5());
+   }
+   else {
+      // Use ES2 as default.
+      //默认使用ES2
+      install(new ElasticSearchModule());
+   }
+
+   install(new CoreModule());
+   install(new JerseyModule());
+
+   new HttpTask(new RestClientManager(), conductorConfig);
+   new JsonJqTransform();
+
+   List<AbstractModule> additionalModules = conductorConfig.getAdditionalModules();
+   if(additionalModules != null) {
+      for(AbstractModule additionalModule : additionalModules) {
+         install(additionalModule);
+      }
+   }
+
+   if (externalPayloadStorageType == S3) {
+      bind(ExternalPayloadStorage.class).to(S3PayloadStorage.class);
+   } else {
+      bind(ExternalPayloadStorage.class).to(DummyPayloadStorage.class);
+   }
+}
